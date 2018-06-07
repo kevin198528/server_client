@@ -1,0 +1,19 @@
+{
+    "broadcast_channel_info": {
+        "ip": "<broadcast>",
+        "port": 6363,
+        "type": "udp"
+    },
+
+    "control_channel_info": {
+      "ip": "127.0.0.1",
+      "port": 6383,
+      "type": "udp"
+    },
+
+    "stream_channel_info": {
+      "ip": "127.0.0.1",
+      "port": 6386,
+      "type": "tcp"
+    }
+}

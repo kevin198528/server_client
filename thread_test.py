@@ -16,7 +16,7 @@ def run_proc(*a, **b):
     print('process{} is {} and {}'.format(os.getpid(), a, b))
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     print('Parent process %s.' % os.getpid())
     p = Process(target=run_proc, kwargs={'a': 123, 'b': 456}, args=['1', '2'])
     print('Child process will start.')

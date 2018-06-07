@@ -26,7 +26,4 @@ while True:
     recv_data = s.recv(10)
     print(str(recv_data, encoding='utf8'))
 
-
 s.close()
-
-
