@@ -4,8 +4,6 @@ import subprocess  # 执行命令模块
 # udp_gb_client.py
 '''客户端（UDP协议局域网广播）'''
 
-
-
 import socket
 
 IP = ''

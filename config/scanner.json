@@ -1,4 +1,10 @@
 {
+    "name": "scanner",
+    "id": 123456,
+    "ip_bc": "<broadcast>",
+    "port_bc": 6363,
+    "ip": "127.0.0.1",
+    "port": 6383,
     "broadcast_channel_info": {
         "ip": "<broadcast>",
         "port": 6363,

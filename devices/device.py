@@ -2,6 +2,12 @@ import socket
 import time, threading
 import json
 
+
+print(type(socket))
+print(socket.__dict__)
+
+time.sleep(100)
+
 # slave_info = {
 #     "type": "slave",
 #     "name": "tx2 camera 01",
