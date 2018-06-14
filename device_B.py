@@ -20,4 +20,5 @@ print('Listening for broadcast at ', s.getsockname())
 while True:
     data, address = s.recvfrom(max_size)
     print('Server received from {}:{}'.format(address, data.decode('utf-8')))
-    s.sendto('deviceA-A'.encode('utf-8'), address)
+
+    s.sendto('i am devie B send to Client broadcast message ---!'.encode('utf-8'), address)
