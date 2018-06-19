@@ -14,9 +14,12 @@ def py_print(str):
 
 
 class AbsDevice(object):
-    def __int__(self, name):
+    def __init__(self, name):
         self.__name = name
         # self.__id = id
+
+    def get_name(self):
+        return self.__name
 
 
 class Scanner(object):
@@ -26,7 +29,7 @@ class Scanner(object):
         self.scan_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.scan_socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
         # self.scan_socket.setsockopt(socket.SOL_SOCKET, socket.SO_RCVTIMEO)
-        self.scan_socket.settimeout(0.1)
+        self.scan_socket.settimeout(0.05)
         self.ip_bc = self.config["ip_bc"]
         self.port_bc = self.config["port_bc"]
         self.addr_bc = (self.ip_bc, self.port_bc)
@@ -37,20 +40,22 @@ class Scanner(object):
         py_print("scanning start")
         self.scan_socket.sendto(utils.dict2json(cmd), self.addr_bc)
 
-        for _ in range(10):
+        for _ in range(12):
             try:
                 data, addr = self.scan_socket.recvfrom(self.rec_size)
             except socket.timeout:
                 print("socket receive from time out")
             else:
                 name = data.decode('utf-8')
-                self.dev_list.append(name)
+                py_print(name)
+                camera_dev = AbsDevice(name)
+                self.dev_list.append(camera_dev)
                 print(type(name))
                 print(name)
                 print(addr)
 
-        py_print("scanning stop")
         print(self.dev_list)
+        py_print("scanning stop")
         return self.dev_list
 
 
