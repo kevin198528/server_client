@@ -2,11 +2,17 @@ import socket
 import time, threading
 import sys
 
+# root_path = "/home/zjq/PycharmProjects/server_client/server_client/"
+# sys.path.append(root_path)
+
 from utils import *
+
+# from ../utils import *
+#
+# from uti
 
 cmd = {'bc_cmd': 'give_your_info'}
 # must use jue dui path
-# root_path = "/home/zjq/PycharmProjects/server_client/server_client/"
 
 
 def py_print(str):
@@ -25,7 +31,7 @@ class AbsDevice(object):
 class Scanner(object):
     def __init__(self):
         print("scanner init")
-        self.config = utils.load_config("./python/config/scanner.json")
+        self.config = utils.load_config("/home/zjq/PycharmProjects/server_client/config/scanner.json")
         self.scan_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.scan_socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
         # self.scan_socket.setsockopt(socket.SOL_SOCKET, socket.SO_RCVTIMEO)
@@ -34,10 +40,10 @@ class Scanner(object):
         self.port_bc = self.config["port_bc"]
         self.addr_bc = (self.ip_bc, self.port_bc)
         self.rec_size = 5600
-        self.dev_list = []
 
     def scanning(self):
         py_print("scanning start")
+        self.dev_list = []
         self.scan_socket.sendto(utils.dict2json(cmd), self.addr_bc)
 
         for _ in range(12):

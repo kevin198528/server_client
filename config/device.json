@@ -1,23 +1,19 @@
 {
-    "type": "slave",
     "name": "tx2 camera 01",
     "id": "00-01",
-    "broadcast_port": 6363,
-    "broadcast_channel_info": {
-        "ip": "",
-        "port": 6363,
-        "type": "udp",
-        "max_size": 65535
-    },
+
+    "broad_ip": "",
+    "broad_port": 8363,
+    "broad_size": 65535,
+
+    "frame_ip": "127.0.0.1",
+    "frame_port": 8365,
+    "frame_size": 65535,
+
     "control_channel_info": {
       "ip": "127.0.0.1",
       "port": 6383,
       "type": "udp",
       "max_size": 65535
-    },
-    "stream_channel_info": {
-      "ip": "127.0.0.1",
-      "port": 6386,
-      "type": "tcp"
     }
 }

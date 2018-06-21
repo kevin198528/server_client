@@ -8,51 +8,51 @@ MAX_DEV = 12
 print("waiting for connection...")
 
 
-
-def tcplink(sock, addr):
-    print('Accept new connection from %s:%s...' % addr)
-    total_len = 0
-
-    while True:
-        data = sock.recv(RECV_SIZE)
-        file_data = b""
-        print(type(file_data))
-
-        if len(data) is 0:
-            print("disconnect")
-            return
-
-        print("data len is {}".format(len(data)))
-
-        # check head len and content is valid
-        if len(data) is not HEAD_SIZE:
-            print("head len error")
-            return
-
-        head = struct.unpack("4sII", data)
-        print(head)
-        if head[0] != b"ICRD":
-            print("head magic error")
-            return
-
-        sock.send(b"ready for recv")
-
-        data_len = int(head[2])
-
-        print("prepare for data len: {}".format(data_len))
-
-        while data_len > 0:
-            data_tmp = sock.recv(RECV_SIZE)
-            file_data = file_data + data_tmp
-            data_len = data_len - len(data_tmp)
-
-        print(len(file_data))
-        print(file_data)
-
-        with open('./save/{}k'.format(int(len(file_data)/1024)), 'wb') as w_file:
-            w_file.write(file_data)
-
-        print("data len:{}".format(len(file_data)))
+# bad code
+# def tcplink(sock, addr):
+#     print('Accept new connection from %s:%s...' % addr)
+#     total_len = 0
+#
+#     while True:
+#         data = sock.recv(RECV_SIZE)
+#         file_data = b""
+#         print(type(file_data))
+#
+#         if len(data) is 0:
+#             print("disconnect")
+#             return
+#
+#         print("data len is {}".format(len(data)))
+#
+#         # check head len and content is valid
+#         if len(data) is not HEAD_SIZE:
+#             print("head len error")
+#             return
+#
+#         head = struct.unpack("4sII", data)
+#         print(head)
+#         if head[0] != b"ICRD":
+#             print("head magic error")
+#             return
+#
+#         sock.send(b"ready for recv")
+#
+#         data_len = int(head[2])
+#
+#         print("prepare for data len: {}".format(data_len))
+#
+#         while data_len > 0:
+#             data_tmp = sock.recv(RECV_SIZE)
+#             file_data = file_data + data_tmp
+#             data_len = data_len - len(data_tmp)
+#
+#         print(len(file_data))
+#         print(file_data)
+#
+#         with open('./save/{}k'.format(int(len(file_data)/1024)), 'wb') as w_file:
+#             w_file.write(file_data)
+#
+#         print("data len:{}".format(len(file_data)))
 
 # while True:
 #     print("before accept")
@@ -115,6 +115,7 @@ class ImageTransfer(object):
         pass
 
     def get_one_frame(self):
+        pass
 
     def start(self):
         self.__s_socket.listen(MAX_DEV)
