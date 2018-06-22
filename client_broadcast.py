@@ -62,6 +62,7 @@ class ConnectInter(GlobalInter):
 
         while True:
             recv_data = self.__socket.recv(self.__recv_size)
+            print(recv_data, len(recv_data))
             if len(recv_data) is 0 or recv_data != self.__request_cmd:
                 print("len 0 or valid request continue")
                 return
@@ -98,7 +99,6 @@ class FrameInter(GlobalInter):
 
     def run(self):
         while True:
-            print("frame channel waiting for connect")
             socket, addr = self.__socket.accept()
             print("a new connect create")
             con_ins = ConnectInter(socket, addr)

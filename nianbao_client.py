@@ -24,9 +24,6 @@ RECV_SIZE = 8*1024*1024
 # s.send('hello'.encode('utf-8'))
 # s.send('feng'.encode('utf-8'))
 
-
-
-
 # with open('./img/30kk.pdf', 'rb') as file:
 #     read_file = file.read()
 #
