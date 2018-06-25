@@ -2,22 +2,73 @@ import socket
 import time, threading
 import sys
 import struct
+import json
 
 # root_path = "/home/zjq/PycharmProjects/server_client/server_client/"
 # sys.path.append(root_path)
 
-from utils import *
+# from utils import *
 
 # from ../utils import *
 #
 # from uti
 
-cmd = {'bc_cmd': 'give_your_info'}
+# cmd = {'bc_cmd': 'give_your_info'}
+
+cmd = "give_your_info"
+
 # must use jue dui path
+
+# device_info = {
+#     "name": "tx2 camera A",
+#     "id": "d01",
+#
+#     "broad_ip": "",
+#     "broad_port": 8363,
+#     "broad_size": 65535,
+#
+#     "frame_ip": "127.0.0.1",
+#     "frame_port": 6365,
+#     "frame_size": 65535,
+#
+#     "ctrl_ip": "127.0.0.1",
+#     "ctrl_port": 6368,
+#     "ctrl_size": 65535
+# }
+
+scanner_info = {
+    "name": "scanner",
+    "id": "s01",
+
+    "broad_ip": "<broadcast>",
+    "broad_port": 8363,
+    "broad_size": 65535
+    # "frame_ip": "127.0.0.1",
+    # "frame_port": 6365,
+    # "frame_size": 65535,
+    #
+    # "ctrl_ip": "127.0.0.1",
+    # "ctrl_port": 6368,
+    # "ctrl_size": 65535
+}
 
 
 def py_print(str):
     print("python: " + str)
+
+
+def print_u():
+    print("hello utils")
+
+
+def load_config(json_path):
+    with open(json_path, "r") as j_file:
+        dev_info = json.loads(j_file.read())
+        return dev_info
+
+
+def dict2json(in_dict):
+    return json.dumps(in_dict).encode('utf-8')
 
 
 class AbsDevice(object):
@@ -96,20 +147,21 @@ class AbsDevice(object):
 class Scanner(object):
     def __init__(self):
         print("scanner init")
-        self.config = utils.load_config("/home/zjq/PycharmProjects/server_client/config/scanner.json")
+        # self.config = utils.load_config("/home/zjq/PycharmProjects/server_client/config/scanner.json")
+        self.scanner_info = scanner_info
         self.scan_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.scan_socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
         # self.scan_socket.setsockopt(socket.SOL_SOCKET, socket.SO_RCVTIMEO)
         self.scan_socket.settimeout(0.05)
-        self.ip_bc = self.config["ip_bc"]
-        self.port_bc = self.config["port_bc"]
+        self.ip_bc = self.scanner_info["broad_ip"]
+        self.port_bc = self.scanner_info["broad_port"]
         self.addr_bc = (self.ip_bc, self.port_bc)
         self.rec_size = 5600
 
     def scanning(self):
         py_print("scanning start")
         self.dev_list = []
-        self.scan_socket.sendto(utils.dict2json(cmd), self.addr_bc)
+        self.scan_socket.sendto(cmd.encode('utf-8'), self.addr_bc)
 
         for _ in range(12):
             try:
@@ -119,8 +171,9 @@ class Scanner(object):
             else:
                 name = data.decode('utf-8')
                 py_print(name)
-                camera_dev = AbsDevice(name)
-                self.dev_list.append(camera_dev)
+
+                # camera_dev = AbsDevice(name)
+                # self.dev_list.append(camera_dev)
                 print(type(name))
                 print(name)
                 print(addr)
@@ -141,18 +194,21 @@ if __name__ == '__main__':
     sc = Scanner()
     dev_list = sc.scanning()
 
-    dev = dev_list[0]
+    # dev = dev_list[0]
+    #
+    # # dev = AbsDevice("deviceA")
+    # dev.dev_open()
+    #
+    # frame = dev.dev_getframe()
+    #
+    # dev.dev_close()
+    #
+    # print(len(frame), type(frame))
+    #
+    # time.sleep(1000)
 
-    # dev = AbsDevice("deviceA")
-    dev.dev_open()
 
-    frame = dev.dev_getframe()
 
-    dev.dev_close()
-
-    print(len(frame), type(frame))
-
-    time.sleep(1000)
 
     # dev_monitor = DmMonitor(dev_info)
     # scanner_info = load_config("../config/scanner.json")

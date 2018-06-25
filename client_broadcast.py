@@ -3,11 +3,44 @@ import subprocess  # 执行命令模块
 import threading
 import time
 import struct
+import json
 from utils import *
 # udp_gb_client.py
 
 import socket
 from utils import *
+
+device_info = {
+    "name": "tx2 camera A",
+    "id": "01",
+
+    "broad_ip": "",
+    "broad_port": 8363,
+    "broad_size": 65535,
+
+    "frame_ip": "127.0.0.1",
+    "frame_port": 6365,
+    "frame_size": 65535,
+
+    "ctrl_ip": "127.0.0.1",
+    "ctrl_port": 6368,
+    "ctrl_size": 65535
+}
+
+cmd_get_info = "give_your_info"
+
+def print_u():
+    print("hello utils")
+
+
+def load_config(json_path):
+    with open(json_path, "r") as j_file:
+        dev_info = json.loads(j_file.read())
+        return dev_info
+
+
+def dict2json(in_dict):
+    return json.dumps(in_dict).encode('utf-8')
 
 
 class GlobalInter(threading.Thread):
@@ -17,7 +50,8 @@ class GlobalInter(threading.Thread):
         super(GlobalInter, self).__init__()
 
         if not GlobalInter.dev_info:
-            GlobalInter.dev_info = utils.load_config("./config/device.json")
+            # GlobalInter.dev_info = utils.load_config("./config/device.json")
+            GlobalInter.dev_info = device_info
 
 
 class BroadInter(GlobalInter):
@@ -34,8 +68,17 @@ class BroadInter(GlobalInter):
     def run(self):
         while True:
             data, address = self.__socket.recvfrom(self.__dev_info["broad_size"])
-            print('Server received from {}:{}'.format(address, data.decode('utf-8')))
-            self.__socket.sendto('deviceABC'.encode('utf-8'), address)
+
+            print(data, type(data))
+
+            get_cmd = data.decode('utf-8')
+            print(get_cmd, cmd_get_info)
+            print(type(get_cmd), type(cmd_get_info))
+            print('Server received from {}:{}'.format(address, get_cmd))
+            if data.decode('utf-8') == cmd_get_info:
+                self.__socket.sendto(dict2json(self.__dev_info), address)
+            else:
+                print("valid cmd")
 
 
 class AttrInter(GlobalInter):
